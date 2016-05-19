@@ -16,6 +16,11 @@ public class PingGameHost {
 	private static JButton btn = null;
 	private static JPanel panel = null;
 	private static JLabel label = null;
+	private static JTextField textbox = null;
+	private static JComboBox color_selector = null;
+	private static JTextField textbox1 = null;
+	private static JTextField textbox2 = null;
+	private static JTextField textbox3 = null;
 
 	// CONNECTION
 	public static int port = 1234;
@@ -27,26 +32,55 @@ public class PingGameHost {
 	// data
 	String color = "None";
 	PingBallMsg msg;
-	int amount = 2;
-	// public void setSocket(Socket socket) {
-	// 	this.socket = socket;
-	// }
+	int amount = 1;
 
 	public void initGUI() {
-		btn = new JButton("Red");
+		frame = new JFrame();
+		frame.setPreferredSize(new Dimension(200,380));
+		frame.setTitle("Ping Ball Game");
+		btn = new JButton("Submit");
 		panel = new JPanel(new FlowLayout());
+		DefaultComboBoxModel colors = new DefaultComboBoxModel();
+		colors.addElement("Red");
+		colors.addElement("Green");
+		colors.addElement("Blue");
+		textbox = new JTextField(6);
+		color_selector = new JComboBox(colors);
+		color_selector.setSelectedIndex(0);
 		label = new JLabel("port: "+port+", host: "+host+"...", SwingConstants.LEFT);
 		btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				color = btn.getText();
+				amount = Integer.parseInt(textbox.getText());
+				color = (String) color_selector.getSelectedItem();
 				msg = new PingBallMsg(color,amount);
 				System.out.println("requested a "+color+" ball");
 				connect();
 			}
 		});
+		JLabel colorlabel = new JLabel("Ball Color:");
+		JLabel amountlabel = new JLabel("Amount:");
+		JLabel redvmlabel = new JLabel("VM Red IP Address: ");
+		JLabel greenvmlabel = new JLabel("VM Green IP Address: ");
+		JLabel bluevmlabel = new JLabel("VM Blue IP Address: ");
+		textbox1 = new JTextField(10);
+		textbox1.setText("localhost");
+		textbox2 = new JTextField(10);
+		textbox2.setText("localhost");
+		textbox3 = new JTextField(10);
+		textbox3.setText("localhost");
+		textbox.setText("1");
+		panel.add(redvmlabel);
+		panel.add(textbox1);
+		panel.add(greenvmlabel);
+		panel.add(textbox2);
+		panel.add(bluevmlabel);
+		panel.add(textbox3);
+		panel.add(colorlabel);
+		panel.add(color_selector);
+		panel.add(amountlabel);
+		panel.add(textbox);
 		panel.add(btn);
 		panel.add(label);
-		frame = new JFrame();
 		frame.setContentPane(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(200,200);

@@ -1,16 +1,24 @@
 import java.lang.*;
 import java.io.*;
 import java.net.*;
+import java.awt.Color;
 
 public class PingGameServer {
 	// server 
 	private static int port = 1234;
 	public static PingBallMsg msg;
 
+	// balls information
+	static int amount = 0;
+	static Color color;
+
+	// public void execute () {
+
+	// }
 	public static void main(String args[]) {
+		while (true) {
 		try {
 			ServerSocket ss = new ServerSocket(port);
-			// while (true) {
 				Socket s = ss.accept();
 				InputStream is = s.getInputStream();
 				ObjectInputStream ois = new ObjectInputStream(is);
@@ -19,8 +27,25 @@ public class PingGameServer {
 
 				msg = (PingBallMsg) ois.readObject();
 				if (msg!=null) {
-					System.out.println(msg.color);
-					System.out.println(msg.amount);
+					System.out.println(msg.color + " " + msg.amount);
+					// convert to color
+					switch (msg.color) {
+						case "Red":
+							color = Color.RED;
+						break;
+						case "Blue":
+							color = Color.BLUE;
+						break;
+						case "Green":
+							color = Color.GREEN;
+						break;
+					}
+					javax.swing.SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							new PaintBall(color,msg.amount + amount).draw();
+						}
+					});
 					writer.write("Draw "+msg.amount+" numbers of "+msg.color+" balls");
 
 				}
@@ -32,17 +57,9 @@ public class PingGameServer {
 				s.close();
 				ss.close();
 		}
-			// BufferedReader in = new BufferedReader(new 
-			// 	InputStreamReader(skt.getInputStream()));
-			// System.out.println("Received String: ");
-			// while (!in.ready()) {
-			// 	System.out.println(in.readLine());
-			// 	System.out.println();
-			// 	in.close();
-			// }
 		catch(Exception e) {
 			System.out.println("ERROR: NOT ABLE TO RECEIVE");
 		}
-		// }
+		}
 	}
 }
