@@ -24,8 +24,10 @@ public class PingGameHost {
 
 	// CONNECTION
 	public static int port = 1234;
-	public static String host = "localhost";
-
+	public static String host;
+	public static String vm1;
+	public static String vm2;
+	public static String vm3;
 	// SERVER
 	// protected Socket socket;
 
@@ -91,8 +93,30 @@ public class PingGameHost {
 	// includes the color of the ball and amount of balls
 	public void connect () {
 		try {
+			// check which color is the messsage contains 
+			// if red to VM1
+			// if green to VM2
+			// if blue to VM3
+			vm1 = textbox1.getText();
+			vm2 = textbox2.getText();
+			vm3 = textbox3.getText();
+			switch (msg.color) {
+				case "Red":
+					host = vm1;
+				break;
+				case "Green":
+					host = vm2;
+				break;
+				case "Blue":
+					host = vm3;
+				break;
+				default: 
+					host = "localhost";
+					System.out.println("Connecting to Default Server");
+				break;
+			}
 			Socket socket = new Socket(host, port);
-			System.out.println("Server Has Connected!");
+			System.out.println("Server ("+host+") Has Connected!");
 			OutputStream os = socket.getOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(os);
 			oos.writeObject(msg);
@@ -100,7 +124,7 @@ public class PingGameHost {
 			// should be a string of success or not
 			BufferedReader reader = new BufferedReader(
 				new InputStreamReader(socket.getInputStream()));
-			System.out.println(reader.readLine());
+			System.out.println("Received From Server ("+host+"): "+reader.readLine());
 			reader.close();
 			oos.close();
 			os.close();
@@ -113,13 +137,13 @@ public class PingGameHost {
 
 	public static void main(String[] args) {
 		PingGameHost client = new PingGameHost();
-		if (args.length < 2) {
-			System.out.println("Using default setting");
-		}
-		else {
-			host = args[0];
-			port = Integer.parseInt(args[1]);
-		}
+		// if (args.length < 2) {
+		// 	System.out.println("Using default setting");
+		// }
+		// else {
+			// host = args[0];
+			// port = Integer.parseInt(args[1]);
+		// 
 		client.initGUI();
 	}
 }
