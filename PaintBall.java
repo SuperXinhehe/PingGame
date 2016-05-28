@@ -25,14 +25,4 @@ public class PaintBall {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-
-	// public static void main(String[] args) {
-	// 	PaintBall paint = new PaintBall();
-	// 	javax.swing.SwingUtilities.invokeLater(new Runnable() {
-	// 		@Override
-	// 		public void run() {
-	// 			new PaintBall().draw();
-	// 		}
-	// 	});
-	// }
 }
