@@ -12,9 +12,6 @@ public class PingGameServer {
 	static int amount = 0;
 	static Color color;
 
-	// public void execute () {
-
-	// }
 	public static void main(String args[]) {
 		while (true) {
 		try {

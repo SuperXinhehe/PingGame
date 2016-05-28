@@ -137,13 +137,6 @@ public class PingGameHost {
 
 	public static void main(String[] args) {
 		PingGameHost client = new PingGameHost();
-		// if (args.length < 2) {
-		// 	System.out.println("Using default setting");
-		// }
-		// else {
-			// host = args[0];
-			// port = Integer.parseInt(args[1]);
-		// 
 		client.initGUI();
 	}
 }
